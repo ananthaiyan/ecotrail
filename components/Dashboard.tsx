@@ -17,9 +17,12 @@ import {
 import { useUser, UserButton } from '@clerk/nextjs'; // Import Clerk
 import { FileUpload } from "@/components/ui/file-upload"; // Import FileUpload component
 import { ResponsiveLine } from '@nivo/line';
+interface FileUploadModalProps {
+  isOpen: boolean; // Type 'isOpen' as boolean
+  onClose: () => void; // Type 'onClose' as a function that returns nothing
+}
 
-// Floating Modal for File Upload
-export function FileUploadModal({ isOpen, onClose }) {
+export function FileUploadModal({ isOpen, onClose }: FileUploadModalProps) {
   const [files, setFiles] = useState<File[]>([]);
 
   const handleFileUpload = (files: File[]) => {
