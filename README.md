@@ -137,9 +137,11 @@ The application will be accessible at `http://localhost:3000`.
 
 ## 📸 Screenshots
 
-### Dashboard Overview
+### Landing Page
 
 ![Landing Pafe](public/ecotrail-landing.png)
+
+### Dashboard Overview
 ![Dashboard](public/ecotrail-dashboard.png)
 
 ### Map View
