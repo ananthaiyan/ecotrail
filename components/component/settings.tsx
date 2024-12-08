@@ -57,7 +57,8 @@ export function Settings() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="frequency">Reporting Frequency</Label>
-                <Select id="frequency">
+                <div id="frequency">
+                <Select>
                   <SelectTrigger>
                     <SelectValue placeholder="Select frequency" />
                   </SelectTrigger>
@@ -67,6 +68,7 @@ export function Settings() {
                     <SelectItem value="annually">Annually</SelectItem>
                   </SelectContent>
                 </Select>
+                </div>
                 <p className="text-sm text-muted-foreground">Choose how often you want to receive reports.</p>
               </div>
             </div>
