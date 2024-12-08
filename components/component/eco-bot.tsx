@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { UserButton } from "@clerk/nextjs";
 import {useChat } from "ai/react";
+import { JSX, SVGProps } from "react";
+
 
 export function EcoBot() {
   const {messages, input, handleInputChange, handleSubmit} = useChat()
@@ -79,7 +81,7 @@ export function EcoBot() {
   )
 }
 
-function InfoIcon(props) {
+function InfoIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -101,7 +103,7 @@ function InfoIcon(props) {
 }
 
 
-function ListIcon(props) {
+function ListIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -126,7 +128,7 @@ function ListIcon(props) {
 }
 
 
-function LuggageIcon(props) {
+function LuggageIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -150,7 +152,7 @@ function LuggageIcon(props) {
 }
 
 
-function MenuIcon(props) {
+function MenuIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -172,7 +174,7 @@ function MenuIcon(props) {
 }
 
 
-function PowerIcon(props) {
+function PowerIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -193,7 +195,7 @@ function PowerIcon(props) {
 }
 
 
-function SendIcon(props) {
+function SendIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
