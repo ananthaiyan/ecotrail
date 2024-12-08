@@ -72,11 +72,11 @@ const Dashboard: React.FC = () => {
     <div className="flex">
       {/* Sidebar */}
       <Sidebar>
-        <SidebarBody className="dark:bg-neutral-800">
-          {links.map((link, index) => (
-            <SidebarLink key={index} link={link} />
-          ))}
-        </SidebarBody>
+      <SidebarBody className="dark:bg-neutral-800">
+  {links.map((link, index) => (
+    <SidebarLink key={index} link={{ ...link, label: link.label ?? 'Default Label' }} />
+  ))}
+</SidebarBody>
       </Sidebar>
 
       {/* Main Content Area */}
@@ -251,7 +251,7 @@ const Dashboard: React.FC = () => {
     </div>
   );
 };
-function LineChart(props) {
+function LineChart(props: React.JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div {...props}>
       <ResponsiveLine
