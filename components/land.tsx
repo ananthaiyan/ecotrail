@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { LogIn } from "lucide-react";
+import { JSX, SVGProps } from "react";
 
 export async function Landing2() {
   const {userId} = await auth()
@@ -99,7 +100,7 @@ export async function Landing2() {
 )
 }
 
-function MountainIcon(props) {
+function MountainIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 return (
 <svg
   {...props}
