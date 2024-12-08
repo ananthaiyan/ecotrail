@@ -166,10 +166,6 @@ We welcome contributions! Please follow these steps:
 
 This project is licensed under the [MIT License](LICENSE).
 
----
 
-## 🧑‍💻 Authors
-
-- **Your Name** - Ananthaiyan Pillai
 
 For any queries, contact: [ananthpillai789@gmail.com](mailto:ananthpillai789@gmail.com)
