@@ -20,6 +20,10 @@ import {
 } from "../ui/breadcrumb";
 import { UserButton } from "@clerk/nextjs";
 
+
+ 
+  
+// Define the Mine interface
 interface Mine {
   id: number;
   name: string;
@@ -54,7 +58,12 @@ const getMarkerColor = (carbonFootprint: number) => {
 };
 
 // Animated marker component
-const AnimatedMarker = ({ mine, setActiveMarker }) => {
+interface AnimatedMarkerProps {
+  mine: Mine;
+  setActiveMarker: (id: number | null) => void;
+}
+
+const AnimatedMarker = ({ mine, setActiveMarker }: AnimatedMarkerProps) => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
@@ -71,7 +80,6 @@ const AnimatedMarker = ({ mine, setActiveMarker }) => {
         click: () => setActiveMarker(mine.id),
       }}
       opacity={animate ? 1 : 0}
-      transition={{ duration: 0.5 }}
     >
       <Popup>
         <div>
@@ -132,9 +140,22 @@ export default function EcoMap() {
   const [activeMarker, setActiveMarker] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredMines, setFilteredMines] = useState(mines);
-  const [selectedMine, setSelectedMine] = useState<number | null>(null);
 
   const totalCarbonFootprint = mines.reduce((sum, mine) => sum + mine.carbonFootprint, 0);
+  const map = useMap();
+  const [selectedMine, setSelectedMine] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (selectedMine !== null) {
+      const mine = mines.find((m) => m.id === selectedMine);
+      if (mine && map) {
+        map.setView([mine.lat, mine.lng], 10, {
+          animate: true,
+          duration: 1,
+        });
+      }
+    }
+  }, [selectedMine, map]);
 
   useEffect(() => {
     setFilteredMines(
@@ -144,20 +165,6 @@ export default function EcoMap() {
     );
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (selectedMine !== null) {
-      const mine = mines.find((m) => m.id === selectedMine);
-      if (mine) {
-        const map = document.querySelector(".leaflet-container")?.__leaflet__;
-        if (map) {
-          map.setView([mine.lat, mine.lng], 10, {
-            animate: true,
-            duration: 1,
-          });
-        }
-      }
-    }
-  }, [selectedMine]);
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/40">
