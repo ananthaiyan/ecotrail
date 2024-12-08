@@ -1,28 +1,41 @@
 "use client";
-import { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { Icon } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import { useState, useEffect, useRef } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { Icon } from "leaflet";
+import "leaflet/dist/leaflet.css";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Layers } from 'lucide-react';
+import { Search, Layers } from "lucide-react";
 import Link from "next/link";
-import L from 'leaflet';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../ui/breadcrumb';
-import { UserButton } from '@clerk/nextjs';
+import L from "leaflet";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
+import { UserButton } from "@clerk/nextjs";
 
-// Dummy data for coal mines
-const mines = [
+interface Mine {
+  id: number;
+  name: string;
+  lat: number;
+  lng: number;
+  carbonFootprint: number;
+}
+
+const mines: Mine[] = [
   { id: 1, name: "NLC Mine 2", lat: 11.6173, lng: 79.4941, carbonFootprint: 500000 },
   { id: 2, name: "Bhagdeva Coal Mine", lat: 22.9260, lng: 83.1943, carbonFootprint: 750000 },
-  // Additional random mines in India
   { id: 3, name: "Mine A", lat: 20.5937, lng: 78.9629, carbonFootprint: 300000 },
   { id: 4, name: "Mine B", lat: 15.3173, lng: 75.7139, carbonFootprint: 450000 },
   { id: 5, name: "Mine C", lat: 21.1458, lng: 79.0882, carbonFootprint: 600000 },
   { id: 6, name: "Mine D", lat: 26.8467, lng: 80.9462, carbonFootprint: 700000 },
-  { id: 7, name: "Mine E", lat: 19.0760, lng: 72.8777, carbonFootprint: 800000 }
+  { id: 7, name: "Mine E", lat: 19.0760, lng: 72.8777, carbonFootprint: 800000 },
 ];
 
 // Custom icon for markers
@@ -34,10 +47,10 @@ const customIcon = new Icon({
 
 // Function to determine marker color based on carbon footprint
 const getMarkerColor = (carbonFootprint: number) => {
-  if (carbonFootprint < 300000) return 'bg-emerald-500';
-  if (carbonFootprint < 600000) return 'bg-yellow-500';
-  if (carbonFootprint < 900000) return 'bg-orange-500';
-  return 'bg-red-500';
+  if (carbonFootprint < 300000) return "bg-emerald-500";
+  if (carbonFootprint < 600000) return "bg-yellow-500";
+  if (carbonFootprint < 900000) return "bg-orange-500";
+  return "bg-red-500";
 };
 
 // Animated marker component
@@ -81,7 +94,7 @@ const MapViewToggle = () => {
       const satelliteLayer = L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         {
-          attribution: 'Esri, NASA, NGA, USGS',
+          attribution: "Esri, NASA, NGA, USGS",
         }
       );
       if (tileLayerRef.current) {
@@ -96,7 +109,7 @@ const MapViewToggle = () => {
       tileLayerRef.current = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
         }
       );
       map.addLayer(tileLayerRef.current);
@@ -109,7 +122,7 @@ const MapViewToggle = () => {
       onClick={() => setIsSatellite(!isSatellite)}
     >
       <Layers className="mr-2 h-4 w-4" />
-      {isSatellite ? 'Street View' : 'Satellite View'}
+      {isSatellite ? "Street View" : "Satellite View"}
     </Button>
   );
 };
@@ -117,7 +130,7 @@ const MapViewToggle = () => {
 // Map Component
 export default function EcoMap() {
   const [activeMarker, setActiveMarker] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredMines, setFilteredMines] = useState(mines);
   const [selectedMine, setSelectedMine] = useState<number | null>(null);
 
@@ -125,7 +138,7 @@ export default function EcoMap() {
 
   useEffect(() => {
     setFilteredMines(
-      mines.filter(mine =>
+      mines.filter((mine) =>
         mine.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
@@ -133,13 +146,13 @@ export default function EcoMap() {
 
   useEffect(() => {
     if (selectedMine !== null) {
-      const mine = mines.find(m => m.id === selectedMine);
+      const mine = mines.find((m) => m.id === selectedMine);
       if (mine) {
-        const map = document.querySelector('.leaflet-container')?.__leaflet__;
+        const map = document.querySelector(".leaflet-container")?.__leaflet__;
         if (map) {
           map.setView([mine.lat, mine.lng], 10, {
             animate: true,
-            duration: 1
+            duration: 1,
           });
         }
       }
@@ -192,7 +205,7 @@ export default function EcoMap() {
                 <Search className="absolute top-3 left-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder=""
+                  placeholder="Search for mines"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
